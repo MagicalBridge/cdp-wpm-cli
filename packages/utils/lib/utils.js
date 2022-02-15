@@ -3,5 +3,5 @@
 module.exports = utils;
 
 function utils() {
-    console.log(456);
+
 }

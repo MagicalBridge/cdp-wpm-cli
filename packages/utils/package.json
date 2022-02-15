@@ -1,6 +1,6 @@
 {
   "name": "@cdp-wpm/utils",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "这是wpm-cli的核心工具函数",
   "author": "褚鹏飞 <540788769@qq.com>",
   "homepage": "https://github.com/MagicalBridge/cdp-wpm-cli/tree/main/packages/utils#readme",

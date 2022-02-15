@@ -18,7 +18,7 @@
     "url": "git+https://github.com/MagicalBridge/cdp-wpm-cli.git"
   },
   "scripts": {
-    "test": "echo \"Error: run tests from root\" && exit 1"
+    "test": "echo \"Run tests from utils\""
   },
   "bugs": {
     "url": "https://github.com/MagicalBridge/cdp-wpm-cli/issues"

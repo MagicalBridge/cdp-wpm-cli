@@ -1,6 +1,6 @@
 {
   "name": "cdp-wpm-cli",
-  "version": "0.1.0",
+  "version": "0.0.1",
   "description": "wpm包管理平台cli脚手架",
   "main": "index.js",
   "scripts": {

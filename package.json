@@ -1,0 +1,23 @@
+{
+  "name": "cdp-wpm-cli",
+  "version": "0.1.0",
+  "description": "wpm包管理平台cli脚手架",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MagicalBridge/cdp-wpm-cli.git"
+  },
+  "keywords": [],
+  "author": "chupengfei <chupengfeiit@gmail.com> (https://github.com/MagicalBridge)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MagicalBridge/cdp-wpm-cli/issues"
+  },
+  "homepage": "https://github.com/MagicalBridge/cdp-wpm-cli#readme",
+  "devDependencies": {
+    "lerna": "^4.0.0"
+  }
+}

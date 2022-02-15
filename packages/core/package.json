@@ -1,6 +1,6 @@
 {
   "name": "@cdp-wpm/core",
-  "version": "0.0.6",
+  "version": "0.0.1",
   "description": "这是wpm-cli的核心模块",
   "author": "褚鹏飞 <540788769@qq.com>",
   "homepage": "https://github.com/MagicalBridge/cdp-wpm-cli/tree/main/packages/core#readme",
@@ -13,6 +13,9 @@
   "files": [
     "lib"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/MagicalBridge/cdp-wpm-cli.git"

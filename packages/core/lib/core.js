@@ -1,7 +1,7 @@
-'use strict';
+"use strict"
 
-module.exports = core;
+module.exports = core
 
 function core() {
-    // TODO
+  console.log(123)
 }

@@ -26,5 +26,6 @@
   "dependencies": {
     "koa": "^2.13.4",
     "mime": "^3.0.0"
-  }
+  },
+  "gitHead": "5f2e3e1606ac706c24c7484ded8f6ca950127a7e"
 }

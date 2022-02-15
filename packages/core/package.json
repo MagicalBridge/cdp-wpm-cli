@@ -1,0 +1,26 @@
+{
+  "name": "@cdp-wpm/core",
+  "version": "0.0.1",
+  "description": "这是wpm-cli的核心模块",
+  "author": "褚鹏飞 <540788769@qq.com>",
+  "homepage": "https://github.com/MagicalBridge/cdp-wpm-cli/tree/main/packages/core#readme",
+  "license": "ISC",
+  "main": "lib/core.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MagicalBridge/cdp-wpm-cli.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/MagicalBridge/cdp-wpm-cli/issues"
+  }
+}

@@ -10,6 +10,9 @@
     "lib": "lib",
     "test": "__tests__"
   },
+  "bin": {
+    "cdp-wpm": "bin/index.js"
+  },
   "files": [
     "lib"
   ],
@@ -27,7 +30,8 @@
     "url": "https://github.com/MagicalBridge/cdp-wpm-cli/issues"
   },
   "dependencies": {
-    "koa": "^2.13.4"
+    "koa": "^2.13.4",
+    "@cdp-wpm/utils": "file:../utils"
   },
   "gitHead": "eea7d2eac0550d037d2e0c4ac3c53a73b6c25f90"
 }

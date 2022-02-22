@@ -1,6 +1,7 @@
 "use strict"
 
 const pkg = require("../package.json")
+const log = require("@cdp-wpm/log")
 
 function core() {
   // console.log("core")
@@ -9,6 +10,7 @@ function core() {
 
 function checkPkgVersion() {
   console.log(pkg.version)
+  log()
 }
 
 module.exports = core

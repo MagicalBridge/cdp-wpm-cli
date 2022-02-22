@@ -9,8 +9,7 @@ function core() {
 }
 
 function checkPkgVersion() {
-  console.log(pkg.version)
-  log()
+  log.info("cli", pkg.version)
 }
 
 module.exports = core

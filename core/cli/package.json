@@ -1,6 +1,6 @@
 {
   "name": "@cdp-wpm/core",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "这是wpm-cli的核心模块",
   "author": "褚鹏飞 <540788769@qq.com>",
   "homepage": "https://github.com/MagicalBridge/cdp-wpm-cli/tree/main/packages/core#readme",
@@ -30,8 +30,8 @@
     "url": "https://github.com/MagicalBridge/cdp-wpm-cli/issues"
   },
   "dependencies": {
-    "@cdp-wpm/utils": "file:../../utils/utils",
     "@cdp-wpm/log": "file:../../utils/log",
+    "@cdp-wpm/utils": "file:../../utils/utils",
     "import-local": "^3.1.0",
     "npmlog": "^6.0.1"
   },

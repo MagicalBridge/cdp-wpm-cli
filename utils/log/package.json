@@ -1,6 +1,6 @@
 {
   "name": "@cdp-wpm/log",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "这是封装的打印日志的包",
   "keywords": [
     "log"

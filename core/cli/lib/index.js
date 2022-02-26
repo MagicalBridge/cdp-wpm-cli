@@ -19,9 +19,20 @@ function core() {
     checkInputArgs()
     // log.verbose("debug","动态修改log level")
     checkEnv()
+    checkGlobalUpdate()
   } catch (error) {
     log.error(error)
   }
+}
+
+// 检查最新的版本号
+function checkGlobalUpdate() {
+  // 1、获取当前的版本号
+  const currentVersion = pkg.version
+  const npmName = pkg.name
+  // 2、获取npm的信息
+  const { getNpmInfo } = require("@cdp-wpm/get-npm-info")
+  getNpmInfo(npmName)
 }
 
 // 检查环境变量
@@ -34,7 +45,7 @@ function checkEnv() {
     })
   }
   config = createDefaultConfig()
-  console.log(process.env.CLI_HOME_PATH) 
+  console.log(process.env.CLI_HOME_PATH)
 }
 
 // 针对没有设置缓存主目录

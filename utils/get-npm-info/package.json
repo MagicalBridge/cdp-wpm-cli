@@ -1,0 +1,34 @@
+{
+  "name": "get-npm-info",
+  "version": "0.0.12",
+  "description": "> TODO: description",
+  "author": "褚鹏飞 <540788769@qq.com>",
+  "homepage": "https://github.com/MagicalBridge/cdp-wpm-cli/tree/main/utils/get-npm-info#readme",
+  "license": "ISC",
+  "main": "lib/index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MagicalBridge/cdp-wpm-cli.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/MagicalBridge/cdp-wpm-cli/issues"
+  },
+  "dependencies": {
+    "axios": "^0.26.0",
+    "semver": "^7.3.5",
+    "url-join": "^4.0.1"
+  }
+}

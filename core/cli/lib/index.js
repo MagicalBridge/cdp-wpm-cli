@@ -6,6 +6,7 @@ const pkg = require("../package.json")
 const userHome = require("user-home")
 const pathExists = require("path-exists").sync
 const log = require("@cdp-wpm/log")
+const init = require("@cdp-wpm/init")
 const constant = require("./constant")
 const commander = require("commander")
 
@@ -39,6 +40,11 @@ function registerCommand() {
     .version(pkg.version)
     .option("-d, --debug", "是否开启调试模式", false)
 
+  program
+    .command("init [projectName]")
+    .option("-f, --force", "是否强制初始化项目")
+    .action(init)
+  
   program.on("option:debug", function () {
     const opts = program.opts()
     const { debug } = opts
@@ -70,7 +76,7 @@ function registerCommand() {
   // ]
   if (process.argv.length < 3) {
     program.outputHelp()
-    console.log();
+    console.log()
   }
 
   program.parse(process.argv)

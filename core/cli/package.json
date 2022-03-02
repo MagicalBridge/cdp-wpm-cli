@@ -33,6 +33,7 @@
     "@cdp-wpm/get-npm-info": "file:../../utils/get-npm-info",
     "@cdp-wpm/log": "file:../../utils/log",
     "@cdp-wpm/utils": "file:../../utils/utils",
+    "@cdp-wpm/init": "file:../../commands/init",
     "colors": "1.3",
     "commander": "8.0.0",
     "dotenv": "^16.0.0",

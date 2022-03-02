@@ -1,6 +1,6 @@
 {
   "name": "@cdp-wpm/get-npm-info",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "description": "这是封装的操作npm的包",
   "author": "褚鹏飞 <540788769@qq.com>",
   "homepage": "https://github.com/MagicalBridge/cdp-wpm-cli/tree/main/utils/get-npm-info#readme",

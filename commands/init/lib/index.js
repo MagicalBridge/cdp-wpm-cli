@@ -1,7 +1,8 @@
 "use strict"
 
-function init(projectName, cmdObj) {
-  console.log("init", projectName, cmdObj.force)
+function init(currOption, globalOpts) {
+  console.log(currOption)
+  console.log(globalOpts)
 }
 
 module.exports = init

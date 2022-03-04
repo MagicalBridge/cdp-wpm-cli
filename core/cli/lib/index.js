@@ -39,11 +39,17 @@ function registerCommand() {
     .usage("<command> [options]")
     .version(pkg.version)
     .option("-d, --debug", "是否开启调试模式", false)
+    .option("-tp, --targetPath <targetPath>", "是否指定本地调试文件路径", '')
 
   program
     .command("init [projectName]")
     .option("-f, --force", "是否强制初始化项目")
-    .action(init)
+    .action( async (currOption) => {
+      // 这里在按照讲师的代码书写的时候遇到了一些问题，拿不到参数
+      // 尝试使用
+      const globalOpts = program.opts()
+      await init(currOption, globalOpts)
+    })
   
   program.on("option:debug", function () {
     const opts = program.opts()
@@ -56,6 +62,12 @@ function registerCommand() {
     log.level = process.env.LOG_LEVEL
     // log.verbose("debug")
   })
+
+
+  // program.on("option:targetPath", function () {
+  //   const opts = program.opts()
+  //   console.log(opts)
+  // })
 
   // 对未知命令的监听
   program.on("command:*", function (obj) {

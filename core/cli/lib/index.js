@@ -46,7 +46,7 @@ function registerCommand() {
     .option("-f, --force", "是否强制初始化项目")
     .action( async (currOption) => {
       // 这里在按照讲师的代码书写的时候遇到了一些问题，拿不到参数
-      // 尝试使用
+      // 尝试使用 program.opts()获取到全局的option。
       const globalOpts = program.opts()
       await init(currOption, globalOpts)
     })
@@ -60,14 +60,7 @@ function registerCommand() {
       process.env.LOG_LEVEL = "info"
     }
     log.level = process.env.LOG_LEVEL
-    // log.verbose("debug")
   })
-
-
-  // program.on("option:targetPath", function () {
-  //   const opts = program.opts()
-  //   console.log(opts)
-  // })
 
   // 对未知命令的监听
   program.on("command:*", function (obj) {

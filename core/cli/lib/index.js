@@ -7,6 +7,7 @@ const userHome = require("user-home")
 const pathExists = require("path-exists").sync
 const log = require("@cdp-wpm/log")
 const init = require("@cdp-wpm/init")
+const exec = require("@cdp-wpm/exec")
 const constant = require("./constant")
 const commander = require("commander")
 
@@ -39,18 +40,8 @@ function registerCommand() {
     .usage("<command> [options]")
     .version(pkg.version)
     .option("-d, --debug", "是否开启调试模式", false)
-    .option("-tp, --targetPath <targetPath>", "是否指定本地调试文件路径", '')
+    .option("-tp, --targetPath <targetPath>", "是否指定本地调试文件路径", "")
 
-  program
-    .command("init [projectName]")
-    .option("-f, --force", "是否强制初始化项目")
-    .action( async (currOption) => {
-      // 这里在按照讲师的代码书写的时候遇到了一些问题，拿不到参数
-      // 尝试使用 program.opts()获取到全局的option。
-      const globalOpts = program.opts()
-      await init(currOption, globalOpts)
-    })
-  
   program.on("option:debug", function () {
     const opts = program.opts()
     const { debug } = opts
@@ -62,6 +53,16 @@ function registerCommand() {
     log.level = process.env.LOG_LEVEL
   })
 
+  // 这种属性监听，其实都是会在 action 之前进行执行
+  program.on("option:targetPath", function () {
+    const opts = program.opts()
+    const { targetPath } = opts
+    if (targetPath) {
+      // 将targetPath 设置到全局
+      process.env.CLI_TARGET_PATH = targetPath
+    }
+  })
+
   // 对未知命令的监听
   program.on("command:*", function (obj) {
     console.log(colors.red(`未知的命令：${obj[0]}`))
@@ -71,6 +72,18 @@ function registerCommand() {
       console.log(colors.green(`可用的命令${availableCommands.join(",")}`))
     }
   })
+
+  program
+    .command("init [projectName]")
+    .option("-f, --force", "是否强制初始化项目")
+    .action(async (currOption) => {
+      // 这里在按照讲师的代码书写的时候遇到了一些问题，拿不到参数
+      // 尝试使用 program.opts()获取到全局的option。
+      // 想要拿到 command 参数，需要使用 program.args方法
+      // await init(currOption, globalOpts)
+      const currentArgs = program.args
+      await exec(currOption, currentArgs)
+    })
 
   // 当输入的命令中参数小于3 说明没有执行命令
   // console.log(process.argv)
@@ -116,7 +129,7 @@ function checkEnv() {
   }
   config = createDefaultConfig()
   // 打印缓存主目录
-  console.log(process.env.CLI_HOME_PATH)
+  // console.log(process.env.CLI_HOME_PATH)
 }
 
 // 针对没有设置缓存主目录

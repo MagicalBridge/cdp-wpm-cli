@@ -2,7 +2,7 @@
 const path = require("path")
 const semver = require("semver")
 const colors = require("colors/safe")
-const pkg = require("../package.json")
+const pkg = require("../package.json") 
 const userHome = require("user-home")
 const pathExists = require("path-exists").sync
 const log = require("@cdp-wpm/log")
@@ -19,6 +19,7 @@ const program = new commander.Command()
 
 function core() {
   try {
+    // 1. 首先检查版本号
     checkPkgVersion()
     checkNodeVersion()
     rootCheck()
@@ -166,6 +167,7 @@ function checkArgs() {
 
 // 检查包的版本
 function checkPkgVersion() {
+  // node 中可以直接操作 .json 文件
   log.info("cli", pkg.version)
 }
 

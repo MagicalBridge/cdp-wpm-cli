@@ -130,13 +130,17 @@ function checkEnv() {
   const dotenvPath = path.resolve(userHome, ".env")
   if (pathExists(dotenvPath)) {
     // 使用这种方式能将配置文件中的变量放入 process.env中
+    // 执行完毕这个代码之后，process.env.CLI_HOME_PATH 就已经可以拿到了
+    // dotenv 这个库确实很好用
     require("dotenv").config({
       path: dotenvPath,
     })
   }
+  // 有时候用户本地是没有 缓存主目录的，我们可以做一些判断
+  // 如果用户本地没有缓存主目录，我们可以帮他生成一个 
   config = createDefaultConfig()
   // 打印缓存主目录
-  // console.log(process.env.CLI_HOME_PATH)
+  // console.log(process.env.CLI_HOME_PATH) => /Users/louis/.cdp-wpm
 }
 
 // 针对没有设置缓存主目录
@@ -149,7 +153,7 @@ function createDefaultConfig() {
   } else {
     cliConfig["cliHome"] = path.join(userHome, constant.DEFAULT_CLI_HOME)
   }
-
+  // 将生成的path 直接赋值给环境变量
   process.env.CLI_HOME_PATH = cliConfig.cliHome
   return cliConfig
 }

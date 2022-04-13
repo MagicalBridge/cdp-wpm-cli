@@ -2,7 +2,7 @@
 const path = require("path")
 const semver = require("semver")
 const colors = require("colors/safe")
-const pkg = require("../package.json") 
+const pkg = require("../package.json")
 const userHome = require("user-home")
 const pathExists = require("path-exists").sync
 const log = require("@cdp-wpm/log")
@@ -19,6 +19,7 @@ const program = new commander.Command()
 
 function core() {
   try {
+    // 准备阶段
     // 1. 首先检查版本号
     checkPkgVersion()
     // 2. 检查node版本功能
@@ -31,8 +32,10 @@ function core() {
     checkInputArgs()
     // 6. 检查用户的环境变量
     checkEnv()
-
+    // 7. 检查包是否是最新的版本
     checkGlobalUpdate()
+
+    // 注册命令
     registerCommand()
   } catch (error) {
     log.error(error)
@@ -43,8 +46,8 @@ function core() {
 function registerCommand() {
   program
     .name(Object.keys(pkg.bin)[0]) // 从 pkg 中
-    .usage("<command> [options]")
-    .version(pkg.version)
+    .usage("<command> [options]") // 给出一个使用的建议
+    .version(pkg.version) // 展示出来版本号
     .option("-d, --debug", "是否开启调试模式", false)
     .option("-tp, --targetPath <targetPath>", "是否指定本地调试文件路径", "")
 
@@ -108,13 +111,18 @@ function registerCommand() {
 
 // 检查最新的版本号
 async function checkGlobalUpdate() {
-  // 1、获取当前的版本号
+  // 1、获取当前的版本号 这些信息都是可以从 package.json 文件中获取
   const currentVersion = pkg.version
   const npmName = pkg.name
-  // 2、获取npm的信息
+
+  // 2、获取npm的信息 调用npm api
   const { getNpmSemverVersion } = require("@cdp-wpm/get-npm-info")
+
+  // 3、提取所有的版本号，比对哪些版本号是大于当前版本号
   const lastVersion = await getNpmSemverVersion(currentVersion, npmName)
 
+  // 4、获取最新的版本号，提示用户更新到该版本
+  // 如果从线上获取的版本大于当前的版本 提示用户更新
   if (lastVersion && semver.gt(lastVersion, currentVersion)) {
     log.warn(
       colors.yellow(
@@ -137,7 +145,7 @@ function checkEnv() {
     })
   }
   // 有时候用户本地是没有 缓存主目录的，我们可以做一些判断
-  // 如果用户本地没有缓存主目录，我们可以帮他生成一个 
+  // 如果用户本地没有缓存主目录，我们可以帮他生成一个
   config = createDefaultConfig()
   // 打印缓存主目录
   // console.log(process.env.CLI_HOME_PATH) => /Users/louis/.cdp-wpm

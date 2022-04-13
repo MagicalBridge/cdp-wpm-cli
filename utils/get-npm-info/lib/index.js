@@ -4,6 +4,7 @@ const axios = require("axios")
 const urlJoin = require("url-join")
 const semver = require("semver")
 
+// 调用npm的api用于获取某个包的信息
 function getNpmInfo(npmName, registry) {
   // console.log(npmName);
   if (!npmName) {
@@ -29,6 +30,7 @@ function getNpmInfo(npmName, registry) {
     })
 }
 
+// 我们可能会使用淘宝镜像源 所以这里需要提供多个路径
 function getDefaultRegistry(isOriginal = true) {
   // 这里的镜像地址上次还出现过一次问题
   return isOriginal
@@ -36,6 +38,7 @@ function getDefaultRegistry(isOriginal = true) {
     : "https://registry.npmmirror.com"
 }
 
+// 最终对外提供的是这个方法
 async function getNpmVersions(npmName, registry) {
   const data = await getNpmInfo(npmName, registry)
   if (data) {

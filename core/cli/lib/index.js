@@ -11,7 +11,7 @@ const exec = require("@cdp-wpm/exec")
 const constant = require("./constant")
 const commander = require("commander")
 
-let args
+// let args
 let config
 
 // 注册一个命令
@@ -21,12 +21,17 @@ function core() {
   try {
     // 1. 首先检查版本号
     checkPkgVersion()
+    // 2. 检查node版本功能
     checkNodeVersion()
+    // 3. 检查root启动
     rootCheck()
+    // 4. 检查用户主目录
     checkUserHome()
+    // 5. 检查用户入参 是不是debug 模式
     checkInputArgs()
-    // log.verbose("debug","动态修改log level")
+    // 6. 检查用户的环境变量
     checkEnv()
+
     checkGlobalUpdate()
     registerCommand()
   } catch (error) {
@@ -121,6 +126,7 @@ async function checkGlobalUpdate() {
 
 // 检查环境变量
 function checkEnv() {
+  // 获取用户的主目录
   const dotenvPath = path.resolve(userHome, ".env")
   if (pathExists(dotenvPath)) {
     // 使用这种方式能将配置文件中的变量放入 process.env中
@@ -151,11 +157,12 @@ function createDefaultConfig() {
 // 检查入参
 function checkInputArgs() {
   const minimist = require("minimist")
-  args = minimist(process.argv.slice(2))
-  checkArgs()
+  const args = minimist(process.argv.slice(2))
+  // 如果我们在 命令后面 添加了 --debug 这个命令 {debug:true} 就会写入到 args 这个参数中
+  checkArgs(args)
 }
 
-function checkArgs() {
+function checkArgs(args) {
   if (args.debug) {
     process.env.LOG_LEVEL = "verbose"
   } else {
@@ -173,9 +180,11 @@ function checkPkgVersion() {
 
 // 检查node版本
 function checkNodeVersion() {
-  // 获取当前版本号
+  // 获取当前版本号 可以使用 process.version
   let currentVersion = process.version
+  // 从常量中找到配置的最新的版本号
   let loweastNodeVersin = constant.LOWEAST_NODE_VERSION
+  // 如果当前版本小于 最小的版本 警告报错
   if (!semver.gte(currentVersion, loweastNodeVersin)) {
     throw new Error(
       colors.red(`cdp-wpm需要安装 v${loweastNodeVersin}以上版本的 Node.js`)
@@ -183,14 +192,17 @@ function checkNodeVersion() {
   }
 }
 
+// 后续会存放一些东西在用户的主目录下。
 function checkUserHome() {
-  // console.log(userHome)
+  // console.log(userHome) // /Users/louis
   if (!userHome || !pathExists(userHome)) {
     throw new Error(colors.red("当前用户主目录不存在"))
   }
 }
 
-// 检查用户root权限
+// 检查用户root权限，为什么要做这种操作，因为我们有时候，我们会涉及文件操作
+// 如果以超级管理员的创建的文件，普通用户的身份就没有办法进行修改，因为我们
+// 需要进行一些降级的方案
 function rootCheck() {
   const rootCheck = require("root-check")
   rootCheck()

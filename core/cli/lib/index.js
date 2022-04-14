@@ -14,7 +14,7 @@ const commander = require("commander")
 // let args
 let config
 
-// 注册一个命令
+// 注册一个新的命令
 const program = new commander.Command()
 
 function core() {
@@ -34,8 +34,7 @@ function core() {
     checkEnv()
     // 7. 检查包是否是最新的版本
     checkGlobalUpdate()
-
-    // 注册命令
+    // 命令注册
     registerCommand()
   } catch (error) {
     log.error(error)
@@ -103,7 +102,6 @@ function registerCommand() {
   // ]
   if (process.argv.length < 3) {
     program.outputHelp()
-    console.log()
   }
 
   program.parse(process.argv)

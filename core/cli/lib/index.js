@@ -50,7 +50,9 @@ function registerCommand() {
     .option("-d, --debug", "是否开启调试模式", false)
     .option("-tp, --targetPath <targetPath>", "是否指定本地调试文件路径", "")
 
+  // 这是脚手架的高级功能，监听某一个命令 
   program.on("option:debug", function () {
+    // 输入的option 可以从 program.opts() 中拿到
     const opts = program.opts()
     const { debug } = opts
     if (debug) {
@@ -71,20 +73,23 @@ function registerCommand() {
     }
   })
 
-  // 对未知命令的监听
+  // 对未知命令的监听 命令一般是 cdp-wpm test 这种执行形式
   program.on("command:*", function (obj) {
-    console.log(colors.red(`未知的命令：${obj[0]}`))
     // console.log(obj); // ["test"]
-    const availableCommands = program.commands.map((cmd) => cmd.name)
-    if (availableCommands.length > 0) {
-      console.log(colors.green(`可用的命令${availableCommands.join(",")}`))
-    }
+    console.log(colors.red(`未知的命令：${obj[0]}`))
+
+    // TODO 下面这些代码不可用
+    // const availableCommands = program.commands.map((cmd) => cmd.name)
+    // if (availableCommands.length > 0) {
+    //   console.log(colors.green(`可用的命令${availableCommands.join(",")}`))
+    // }
   })
 
   program
-    .command("init [projectName]")
-    .option("-f, --force", "是否强制初始化项目")
+    .command("init <projectName>") // 指定init命令的时候，跟上一个项目名称
+    .option("-f, --force", "是否强制初始化项目") // 强制初始化时候可能会覆盖当前的文件目录
     .action(async (currOption) => {
+      // currOption 对应的就是 projectName
       // 这里在按照讲师的代码书写的时候遇到了一些问题，拿不到参数
       // 尝试使用 program.opts()获取到全局的option。
       // 想要拿到 command 参数，需要使用 program.args方法
@@ -93,7 +98,7 @@ function registerCommand() {
       await exec(currOption, currentArgs)
     })
 
-  // 当输入的命令中参数小于3 说明没有执行命令
+  // 当输入的命令中参数小于3 说明没有执行命令 直接打印帮助文档
   // console.log(process.argv)
   // [
   //   '/Users/louis/.nvm/versions/node/v14.16.0/bin/node',
@@ -102,9 +107,11 @@ function registerCommand() {
   // ]
   if (process.argv.length < 3) {
     program.outputHelp()
+    console.log();
+  } else {
+    // 这个parse都是必须的
+    program.parse(process.argv)
   }
-
-  program.parse(process.argv)
 }
 
 // 检查最新的版本号

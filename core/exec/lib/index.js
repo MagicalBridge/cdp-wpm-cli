@@ -14,13 +14,18 @@ function exec(currOption, currentArgs) {
   const packageVersion = "latest"
   // 这里老师说：将targetPath 映射成为 modulePath
   // 然后将 modulePath 映射成为 package(npm模块)
+
+  if (!targetPath) {
+    // 生成缓存路径
+  }
+
   // Package 中提供入口文件等一些api方法
   const pkg = new Package({
     targetPath,
     packageName,  
     packageVersion
   })
-  console.log(pkg)
+  console.log(pkg.getRootFilePath())
 } 
 
 module.exports = exec

@@ -3,6 +3,8 @@
 const { isObject } = require("@cdp-wpm/utils")
 const pkgDir = require("pkg-dir").sync
 const path = require("path")
+const formatPath = require("@cdp-wpm/format-path")
+const npminstall = require("npminstall")
 
 class Package {
   constructor(opts) {
@@ -24,7 +26,12 @@ class Package {
   // 判断当前的package是否存在
   exists() {}
   // 安装package
-  install() {}
+  install() {
+    // 返回的是一个方法
+    npminstall({
+      
+    })
+  }
   // 更新package
   update() {}
   // 获取入口文件路径
@@ -40,9 +47,9 @@ class Package {
       const pkgFile = require(path.resolve(dir, "package.json"))
       // 3、找到 main 或者 lib 的 key
       if (pkgFile && pkgFile.main) {
-        return path.resolve(dir, pkgFile.main)
+        // 4、路径的兼容 mac 和 windows
+        return formatPath(path.resolve(dir, pkgFile.main))
       }
-      // 4、路径的兼容 mac 和 windows
     }
     return null
   }

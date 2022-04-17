@@ -1,9 +1,9 @@
 {
-  "name": "@cdp-wpm/package",
+  "name": "format-path",
   "version": "0.0.16",
-  "description": "> TODO: description",
+  "description": "抹平不同操作系统之间路径差异",
   "author": "褚鹏飞 <540788769@qq.com>",
-  "homepage": "https://github.com/MagicalBridge/cdp-wpm-cli/tree/main/models/package#readme",
+  "homepage": "https://github.com/MagicalBridge/cdp-wpm-cli/tree/main/utils/format-path#readme",
   "license": "ISC",
   "main": "lib/index.js",
   "directories": {
@@ -25,11 +25,5 @@
   },
   "bugs": {
     "url": "https://github.com/MagicalBridge/cdp-wpm-cli/issues"
-  },
-  "dependencies": {
-    "@cdp-wpm/format-path": "file:../../utils/format-path",
-    "@cdp-wpm/utils": "file:../../utils/utils",
-    "npminstall": "^6.1.0",
-    "pkg-dir": "5.0.0"
   }
 }

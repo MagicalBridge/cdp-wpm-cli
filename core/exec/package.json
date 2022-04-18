@@ -27,6 +27,7 @@
     "url": "https://github.com/MagicalBridge/cdp-wpm-cli/issues"
   },
   "dependencies": {
-    "@cdp-wpm/package": "file:../../models/package"
+    "@cdp-wpm/package": "file:../../models/package",
+    "user-home": "^3.0.0"
   }
 }

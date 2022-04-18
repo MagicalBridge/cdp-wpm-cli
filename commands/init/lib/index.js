@@ -1,9 +1,7 @@
 "use strict"
 
 function init(currOption, globalOpts) {
-  // console.log(currOption)
-  // console.log(globalOpts)
-  // console.log(process.env.CLI_TARGET_PATH)
+  console.log("走进init方法")
 }
 
 module.exports = init

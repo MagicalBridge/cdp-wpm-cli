@@ -5,6 +5,7 @@ const pkgDir = require("pkg-dir").sync
 const path = require("path")
 const formatPath = require("@cdp-wpm/format-path")
 const npminstall = require("npminstall")
+const { getDefaultRegistry } = require("@cdp-wpm/get-npm-info")
 
 class Package {
   constructor(opts) {
@@ -16,8 +17,8 @@ class Package {
     }
     // 获取package的路径
     this.targetPath = opts.targetPath
-    // package 的缓存路径
-    // this.storePath = opts.storePath
+    // package 的缓存路径 一般是目标路径的基础上加上一层 node_modules 层级路径
+    this.storePath = opts.storePath
     // package的name
     this.packageName = opts.packageName
     // package的version
@@ -29,7 +30,15 @@ class Package {
   install() {
     // 返回的是一个方法
     npminstall({
-      
+      root: this.targetPath,
+      storeDir: this.storePath, // 缓存的路径
+      registry: getDefaultRegistry(true),
+      pkgs: [
+        {
+          name: this.packageName,
+          version: this.packageVersion,
+        },
+      ],
     })
   }
   // 更新package

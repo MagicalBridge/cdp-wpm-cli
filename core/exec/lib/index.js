@@ -1,7 +1,7 @@
 "use strict"
 const Package = require("@cdp-wpm/package")
 const path = require("path")
-const userHome = require("user-home")
+// const userHome = require("user-home")
 
 const SETTINGS = {
   init: "@cdp-wpm/init",
@@ -10,7 +10,7 @@ const SETTINGS = {
 // 这个变量会拼接在主目录下面的一个文件夹里面
 const CATCH_DIR = "dependencies"
 
-function exec(currOption, currentArgs) {
+async function exec(currOption, currentArgs) {
   // 我们全局监听了 targetPath 这个options 然后放进了环境变量中 做了了业务逻辑的解耦
   let targetPath = process.env.CLI_TARGET_PATH
   // 设置缓存路径
@@ -30,7 +30,7 @@ function exec(currOption, currentArgs) {
     storePath = path.resolve(targetPath, "node_modules")
     // console.log(targetPath) // /Users/louis/.cdp-wpm-cli/dependencies
     // console.log(storePath) // /Users/louis/.cdp-wpm-cli/dependencies/node_modules
-    
+
     // Package 中提供入口文件等一些api方法 没有传递缓存路劲
     pkg = new Package({
       targetPath,
@@ -38,11 +38,12 @@ function exec(currOption, currentArgs) {
       packageName,
       packageVersion,
     })
-    // 如果包存在的话 走的是更新pag
-    if(pkg.exists()) {
-
-    } else {
-      // 不存在的时候走的是安装pkg
+    // 如果包存在的话 走的是更新pkg 逻辑
+    if (pkg.exists()) {
+    } else { // 不存在 安装包逻辑
+      // install 返回的是一个promise 这是使用await保证同步执行逻辑
+      await pkg.install()
+      console.log("包安装完毕");
     }
   } else {
     //targetpath 被指定了，可能是为了调试安装这个模块
@@ -56,7 +57,12 @@ function exec(currOption, currentArgs) {
   // 最终会拿到这个文件，并且执行
   const rootFile = pkg.getRootFilePath()
   // 如果返回是一个function的话执行执行起来
-  require(rootFile)()
+  // cdp-wpm init testproject -tp /Users/louis/Documents/myProject/cdp-wpm-cli/commands/init
+  if (rootFile) {
+    require(rootFile)()
+  } else {
+    return null
+  }
 }
 
 module.exports = exec

@@ -29,7 +29,7 @@ class Package {
   // 安装package
   install() {
     // 返回的是一个方法
-    npminstall({
+    return npminstall({
       root: this.targetPath,
       storeDir: this.storePath, // 缓存的路径
       registry: getDefaultRegistry(true),

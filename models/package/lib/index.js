@@ -2,10 +2,14 @@
 
 const { isObject } = require("@cdp-wpm/utils")
 const pkgDir = require("pkg-dir").sync
+const pathExits = require("path-exists").sync
 const path = require("path")
 const formatPath = require("@cdp-wpm/format-path")
 const npminstall = require("npminstall")
-const { getDefaultRegistry } = require("@cdp-wpm/get-npm-info")
+const {
+  getDefaultRegistry,
+  getNpmLatestVersion,
+} = require("@cdp-wpm/get-npm-info")
 
 class Package {
   constructor(opts) {
@@ -23,11 +27,44 @@ class Package {
     this.packageName = opts.packageName
     // package的version
     this.packageVersion = opts.packageVersion
+    // package的缓存目录的前缀
+    this.cacheFilePathPrefix = this.packageName.replace("/", "_")
   }
+
+  // 这是个准备方法 用来处理一些版本号的问题，虽然安装的时候 我们传递的是latest
+  // 但是实际上我们获取包的缓存的信息的时候还是需要带上版本号的
+  async prepare() {
+    // 有时候传递过来的值会是 latest
+    if (this.packageVersion === "latest") {
+      this.packageVersion = await getNpmLatestVersion(this.packageName)
+    }
+    console.log(this.packageVersion)
+  }
+
+  // 实际安装的包的路径是经过特殊处理的，为了识别这种情况，我们来处理下路径名称
+  // 这里使用类的一个特性使用get 标识要操作的方法
+  get cacheFilePath() {
+    return path.resolve(
+      this.storePath,
+      `_${this.cacheFilePathPrefix}@${this.packageVersion}@${this.packageName}`
+    )
+  }
+
   // 判断当前的package是否存在
-  exists() {}
+  // storePath这个缓存路径的赋值是在没有传递targetPath的场景下赋值的。
+  async exists() {
+    if (this.storePath) {
+      await this.prepare()
+      console.log(this.cacheFilePath)
+      return pathExits(this.cacheFilePath)
+    } else {
+      // 说明传递了 targetPath 直接使用现有的api进行判断即可
+      return pathExits(this.targetPath)
+    }
+  }
   // 安装package
-  install() {
+  async install() {
+    await this.prepare()
     // 返回的是一个方法
     return npminstall({
       root: this.targetPath,

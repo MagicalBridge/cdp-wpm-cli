@@ -65,9 +65,20 @@ async function getNpmSemverVersion(baseVersion, npmName, registry) {
   }
 }
 
+// 获取最新的版本号
+async function getNpmLatestVersion(npmName) {
+  const registry = getDefaultRegistry(true)
+  const versions = await getNpmVersions(npmName, registry)
+  // 拿到的是一个数组，返回第一个就好
+  if (versions.length > 0) {
+    return versions[0]
+  }
+}
+
 module.exports = {
   getNpmInfo,
   getNpmVersions,
   getNpmSemverVersion,
-  getDefaultRegistry
+  getDefaultRegistry,
+  getNpmLatestVersion,
 }

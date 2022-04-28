@@ -53,7 +53,8 @@ class Package {
   // 判断当前的package是否存在
   // storePath这个缓存路径的赋值是在没有传递targetPath的场景下赋值的。
   async exists() {
-    if (this.storePath) {
+    if (this.storePath) { // 缓存模式
+      // 这个准备方法的作用是将我们传递的latest 转换成真的版本号
       await this.prepare()
       console.log(this.cacheFilePath)
       return pathExits(this.cacheFilePath)

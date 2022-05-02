@@ -40,7 +40,7 @@ async function exec(currOption, currentArgs) {
     })
     // 如果包存在的话 走的是更新pkg逻辑 
     if (await pkg.exists()) {
-      console.log("更新package")
+      await pkg.update()
     } else { // 不存在 安装包逻辑
       // install 返回的是一个promise 这是使用await保证同步执行逻辑
       await pkg.install()

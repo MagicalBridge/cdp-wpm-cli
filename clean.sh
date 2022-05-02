@@ -6,3 +6,4 @@ rm -rf lerna-debug.log
 rm -rf core/**/package-lock.json 
 rm -rf utils/**/package-lock.json 
 rm -rf commands/**/package-lock.json
+rm -rf models/**/package-lock.json

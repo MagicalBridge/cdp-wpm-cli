@@ -28,6 +28,7 @@
   },
   "dependencies": {
     "@cdp-wpm/package": "file:../../models/package",
+    "fs-extra": "^10.1.0",
     "user-home": "^3.0.0"
   }
 }

@@ -13,7 +13,6 @@ function getNpmInfo(npmName, registry) {
 
   const registryUrl = registry || getDefaultRegistry()
   const npmInfoUrl = urlJoin(registryUrl, npmName)
-
   // 请求接口
   return axios
     .get(npmInfoUrl)
@@ -69,9 +68,9 @@ async function getNpmSemverVersion(baseVersion, npmName, registry) {
 async function getNpmLatestVersion(npmName) {
   const registry = getDefaultRegistry(true)
   const versions = await getNpmVersions(npmName, registry)
-  // 拿到的是一个数组，返回第一个就好
+  // 拿到的是一个数组，返回最后一个，也不知道什么时候更新的
   if (versions.length > 0) {
-    return versions[0]
+    return versions[versions.length - 1]
   }
 }
 

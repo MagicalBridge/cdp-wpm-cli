@@ -44,7 +44,7 @@ async function exec(currOption, currentArgs) {
     } else { // 不存在 安装包逻辑
       // install 返回的是一个promise 这是使用await保证同步执行逻辑
       await pkg.install()
-      console.log("包安装完毕");
+      console.log("包安装完毕=============");
     }
   } else {
     //targetpath 被指定了，可能是为了调试安装这个模块

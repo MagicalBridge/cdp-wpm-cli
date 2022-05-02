@@ -5,7 +5,7 @@ const pkgDir = require("pkg-dir").sync
 const pathExits = require("path-exists").sync
 const path = require("path")
 const formatPath = require("@cdp-wpm/format-path")
-const fse = require('fs-extra')
+const fse = require("fs-extra")
 const npminstall = require("npminstall")
 const {
   getDefaultRegistry,
@@ -44,6 +44,7 @@ class Package {
     // 有时候传递过来的值会是 latest
     if (this.packageVersion === "latest") {
       this.packageVersion = await getNpmLatestVersion(this.packageName)
+      console.log("当前包的最新版本号: " + this.packageVersion)
     }
     // console.log(this.packageVersion)
   }
@@ -67,7 +68,8 @@ class Package {
   // 判断当前的package是否存在
   // storePath这个缓存路径的赋值是在没有传递targetPath的场景下赋值的。
   async exists() {
-    if (this.storePath) { // 缓存模式
+    if (this.storePath) {
+      // 缓存模式
       // 这个准备方法的作用是将我们传递的latest 转换成真的版本号
       await this.prepare()
       console.log("缓存路径: " + this.cacheFilePath)
@@ -95,7 +97,7 @@ class Package {
   }
   // 更新package
   async update() {
-    await this.prepare();
+    await this.prepare()
     // 1、获取最新的npm模块版本号
     const latestPackageVersion = await getNpmLatestVersion(this.packageName)
     // 2、查询下，最新的版本号对应的路径是否存在
@@ -121,22 +123,29 @@ class Package {
   }
   // 获取入口文件路径
   getRootFilePath() {
-    // 1、获取targetpath 下面的package.json所在的目录 需要使用 pkg-dir 这个仓库
-    // /Users/louis/Documents/myProject/cdp-wpm-cli/commands/init
-    // 使用这个模块的原因是，做一个兼容处理 如果我们传递的目录是更深层级的，
-    // 那么依然会返回这个目录
-    const dir = pkgDir(this.targetPath)
-    // 目录存在的情况
-    if (dir) {
-      // 2、读取这个文件 package.json
-      const pkgFile = require(path.resolve(dir, "package.json"))
-      // 3、找到 main 或者 lib 的 key
-      if (pkgFile && pkgFile.main) {
-        // 4、路径的兼容 mac 和 windows
-        return formatPath(path.resolve(dir, pkgFile.main))
+    function _getRootFile(targetPath) {
+      // 1、获取targetpath 下面的package.json所在的目录 需要使用 pkg-dir 这个仓库
+      // /Users/louis/Documents/myProject/cdp-wpm-cli/commands/init
+      // 使用这个模块的原因是，做一个兼容处理 如果我们传递的目录是更深层级的，
+      // 那么依然会返回这个目录
+      const dir = pkgDir(targetPath)
+      // 目录存在的情况
+      if (dir) {
+        // 2、读取这个文件 package.json
+        const pkgFile = require(path.resolve(dir, "package.json"))
+        // 3、找到 main 或者 lib 的 key
+        if (pkgFile && pkgFile.main) {
+          // 4、路径的兼容 mac 和 windows
+          return formatPath(path.resolve(dir, pkgFile.main))
+        }
       }
+      return null
     }
-    return null
+    if (this.storePath) {
+      return _getRootFile(this.cacheFilePath)
+    } else {
+      return _getRootFile(this.targetPath)
+    }
   }
 }
 

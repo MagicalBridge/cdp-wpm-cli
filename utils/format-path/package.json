@@ -1,5 +1,5 @@
 {
-  "name": "format-path",
+  "name": "@cdp-wpm/format-path",
   "version": "0.0.16",
   "description": "抹平不同操作系统之间路径差异",
   "author": "褚鹏飞 <540788769@qq.com>",

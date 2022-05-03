@@ -59,6 +59,9 @@ async function exec(currOption, currentArgs) {
   const rootFile = pkg.getRootFilePath()
   // 如果返回是一个function的话执行执行起来
   // cdp-wpm init testproject -tp /Users/louis/Documents/myProject/cdp-wpm-cli/commands/init
+
+  // 如果有targetPath 使用这种方式调试
+  // cdp-wpm init testproject -tp /Users/louis/Documents/myProject/cdp-wpm-cli/commands/init --debug --force
   if (rootFile) {
     require(rootFile)()
   } else {

@@ -1,9 +1,9 @@
 {
-  "name": "@cdp-wpm/init",
+  "name": "@cdp-wpm/command",
   "version": "0.0.18",
-  "description": "> TODO: description",
+  "description": "这是统一封装的command类",
   "author": "褚鹏飞 <540788769@qq.com>",
-  "homepage": "https://github.com/MagicalBridge/cdp-wpm-cli/tree/main/commands/init#readme",
+  "homepage": "https://github.com/MagicalBridge/cdp-wpm-cli/tree/main/models/command#readme",
   "license": "ISC",
   "main": "lib/index.js",
   "directories": {
@@ -14,7 +14,7 @@
     "lib"
   ],
   "publishConfig": {
-    "access": "public"
+    "registry": "https://registry.npmmirror.com/"
   },
   "repository": {
     "type": "git",
@@ -23,10 +23,12 @@
   "scripts": {
     "test": "echo \"Error: run tests from root\" && exit 1"
   },
-  "dependencies": {
-    "@cdp-wpm/command": "file:../../models/command"
-  },
   "bugs": {
     "url": "https://github.com/MagicalBridge/cdp-wpm-cli/issues"
+  },
+  "dependencies": {
+    "@cdp-wpm/log": "file:../../utils/log",
+    "colors": "^1.4.0",
+    "semver": "^7.3.7"
   }
 }

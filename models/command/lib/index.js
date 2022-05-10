@@ -6,12 +6,28 @@ const log = require("@cdp-wpm/log")
 const LOWEAST_NODE_VERSION = "12.0.0"
 
 class Command {
-  constructor() {
-    console.log("Command constructor")
+  constructor(argv) {
+    if (!argv) {
+      throw new Error("参数不能为空!")
+    }
+
+    if (!Array.isArray(argv)) {
+      throw new Error("参数必须为数组！")
+    }
+
+    if (argv.length < 1) {
+      throw new Error("参数列表不能为空！")
+    }
+
+    this._argv = argv
     this.runner = new Promise((resolve, reject) => {
       let chain = Promise.resolve()
       chain = chain.then(() => this.checkNodeVersion())
       chain = chain.then(() => this.initArgs())
+      // 下面的方法就是执行用户自己的逻辑了
+      chain = chain.then(() => this.init())
+      chain = chain.then(() => this.exec())
+      // 监听promsie的异常
       chain.catch((err) => {
         log.error(err.message)
       })
@@ -36,11 +52,11 @@ class Command {
   initArgs() {}
 
   init() {
-    throw new Error("init 必须实现")
+    throw new Error("init方法必须实现")
   }
 
   exec() {
-    throw new Error("exec 必须实现")
+    throw new Error("exec方法必须实现")
   }
 }
 

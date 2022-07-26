@@ -116,7 +116,7 @@ function registerCommand() {
 
 // 检查最新的版本号
 async function checkGlobalUpdate() {
-  // 1、获取当前的版本号 这些信息都是可以从 package.json 文件中获取
+  // 1、获取当前的版本号和模块名称，这些信息都是可以从 package.json 文件中获取
   const currentVersion = pkg.version
   const npmName = pkg.name
 
@@ -174,8 +174,9 @@ function createDefaultConfig() {
 // 检查入参
 function checkInputArgs() {
   const minimist = require("minimist")
+  // 这种写法已经非常常用，只要参数部分，默认的前两个不需要
   const args = minimist(process.argv.slice(2))
-  // 如果我们在 命令后面 添加了 --debug 这个命令 {debug:true} 就会写入到 args 这个参数中
+  // 如果我们在命令后面添加了 --debug 这个命令 {debug:true} 就会写入到 args 这个参数中
   checkArgs(args)
 }
 
@@ -185,7 +186,7 @@ function checkArgs(args) {
   } else {
     process.env.LOG_LEVEL = "info"
   }
-  // 在确定好了 log——level 之后重新给他赋值
+  // 在确定好了 log—level 之后重新给他赋值
   log.level = process.env.LOG_LEVEL
 }
 
@@ -213,17 +214,18 @@ function checkNodeVersion() {
 function checkUserHome() {
   // console.log(userHome) // /Users/louis
   if (!userHome || !pathExists(userHome)) {
-    throw new Error(colors.red("当前用户主目录不存在"))
+    throw new Error(colors.red("当前用户主目录不存在~~~"))
   }
 }
 
 // 检查用户root权限，为什么要做这种操作，因为我们有时候，我们会涉及文件操作
 // 如果以超级管理员的创建的文件，普通用户的身份就没有办法进行修改，因为我们
-// 需要进行一些降级的方案
+// 需要进行一些降级的方案  root-check 这个包会检查root账户，如果检查是root
+// 账户，就会降级。
 function rootCheck() {
+  // console.log(process.geteuid());
   const rootCheck = require("root-check")
   rootCheck()
-  // console.log(process.geteuid());
 }
 
 module.exports = core

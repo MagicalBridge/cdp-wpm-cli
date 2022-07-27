@@ -77,7 +77,6 @@ function registerCommand() {
   program.on("command:*", function (obj) {
     // console.log(obj); // ["test"]
     console.log(colors.red(`未知的命令：${obj[0]}`))
-
     // TODO 下面这些代码不可用
     // const availableCommands = program.commands.map((cmd) => cmd.name)
     // if (availableCommands.length > 0) {
@@ -180,6 +179,7 @@ function checkInputArgs() {
   checkArgs(args)
 }
 
+// 解析入参，是debug模式修改日志的级别
 function checkArgs(args) {
   if (args.debug) {
     process.env.LOG_LEVEL = "verbose"

@@ -14,7 +14,7 @@ const commander = require("commander")
 // let args
 let config
 
-// 注册一个新的命令
+// 注册命令
 const program = new commander.Command()
 
 function core() {
@@ -44,7 +44,7 @@ function core() {
 // 注册命令方法
 function registerCommand() {
   program
-    .name(Object.keys(pkg.bin)[0]) // 从 pkg 中
+    .name(Object.keys(pkg.bin)[0]) // 从pkg中获取名字
     .usage("<command> [options]") // 给出一个使用的建议
     .version(pkg.version) // 展示出来版本号
     .option("-d, --debug", "是否开启调试模式", false)

@@ -5,6 +5,7 @@ const cp = require("child_process")
 const log = require("@cdp-wpm/log")
 // const userHome = require("user-home")
 
+// 这里做一个映射表，根据传递进来的name 找到完整的包名
 const SETTINGS = {
   init: "@cdp-wpm/init",
 }
@@ -25,7 +26,7 @@ async function exec(currOption, currentArgs) {
   // 这里老师说：将targetPath 映射成为 modulePath
   // 然后将 modulePath 映射成为 package(npm模块)
 
-  // 如果用户在执行命令的时候没有携带缓存路径
+  // 如果用户在执行命令的时候没有路径
   if (!targetPath) {
     // 我们就手动生成缓存路径
     targetPath = path.resolve(homePath, CATCH_DIR)

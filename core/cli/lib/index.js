@@ -48,7 +48,7 @@ function registerCommand() {
     .usage("<command> [options]") // 给出一个使用的建议
     .version(pkg.version) // 展示出来版本号
     .option("-d, --debug", "是否开启调试模式", false)
-    .option("-tp, --targetPath <targetPath>", "是否指定本地调试文件路径", "")
+    .option("-tp, --targetPath <targetPath>", "是否指定本地调试文件路径", "") // 本地调试路径
 
   // 这是脚手架的高级功能，监听某一个命令 
   program.on("option:debug", function () {

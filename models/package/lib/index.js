@@ -70,7 +70,7 @@ class Package {
   async exists() {
     if (this.storePath) {
       // 缓存模式
-      // 这个准备方法的作用是将我们传递的latest 转换成真的版本号
+      // 这个准备方法的作用是将我们传递的latest转换成真的版本号
       await this.prepare()
       console.log("缓存路径: " + this.cacheFilePath)
       return pathExits(this.cacheFilePath)

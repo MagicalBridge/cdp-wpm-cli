@@ -26,15 +26,15 @@ async function exec(currOption, currentArgs) {
   // 这里老师说：将targetPath 映射成为 modulePath
   // 然后将 modulePath 映射成为 package(npm模块)
 
-  // 如果用户在执行命令的时候没有路径
+  // 如果用户在执行命令的时候没有传递路径
   if (!targetPath) {
-    // 我们就手动生成缓存路径
+    // 我们就手动生成目标路径和缓存路径
     targetPath = path.resolve(homePath, CATCH_DIR)
     storePath = path.resolve(targetPath, "node_modules")
     // console.log(targetPath) // /Users/louis/.cdp-wpm-cli/dependencies
     // console.log(storePath) // /Users/louis/.cdp-wpm-cli/dependencies/node_modules
 
-    // Package 中提供入口文件等一些api方法 没有传递缓存路劲
+    // Package 中提供入口文件等一些api方法，先是创建一个实例
     pkg = new Package({
       targetPath,
       storePath,
@@ -51,7 +51,7 @@ async function exec(currOption, currentArgs) {
       console.log("包安装完毕=============")
     }
   } else {
-    //targetpath 被指定了，可能是为了调试安装这个模块
+    // targetpath 被指定了，是为了调试这个模块，并不需要安装
     pkg = new Package({
       targetPath,
       packageName,

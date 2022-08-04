@@ -70,7 +70,7 @@ async function exec(currOption, currentArgs) {
     try {
       // require(rootFile).call(null, Array.from(arguments))
       const code = "console.log(1)"
-      // 使用 spawn 利于node多进程的方式来执行命令
+      // 使用 spawn 利于node多进程的方式来执行命令 第一个参数-e 是执行代码的意思
       const child = cp.spawn("node", ["-e", code], {
         cwd: process.cwd(),
         stdio: "inherit", // 和父进程做通信

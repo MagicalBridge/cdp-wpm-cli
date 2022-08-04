@@ -20,7 +20,9 @@ class Command {
     }
 
     this._argv = argv
+    // 借助promise 直接 new Command 就会执行 下面的逻辑
     this.runner = new Promise((resolve, reject) => {
+      // 返回的chain 也是一个promsie
       let chain = Promise.resolve()
       chain = chain.then(() => this.checkNodeVersion())
       chain = chain.then(() => this.initArgs())

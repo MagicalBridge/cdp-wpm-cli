@@ -13,6 +13,14 @@ const SETTINGS = {
 // 这个变量会拼接在主目录下面的一个文件夹里面
 const CATCH_DIR = "dependencies"
 
+// 对于windows的兼容处理
+function spawn(command, args, options) {
+  const win32 = process.platform === "win32";
+  const cmd = win32 ? "cmd": command
+  const cmdArgs = win32? ['/c'].concat(command,args): args;
+  return cp.spawn(cmd, cmdArgs,options || {})
+}
+
 async function exec(currOption, currentArgs) {
   // 我们全局监听了 targetPath 这个options 然后放进了环境变量中 做了业务逻辑的解耦
   let targetPath = process.env.CLI_TARGET_PATH
@@ -68,10 +76,10 @@ async function exec(currOption, currentArgs) {
   // cdp-wpm init testproject -tp /Users/louis/Documents/myProject/cdp-wpm-cli/commands/init --debug --force
   if (rootFile) {
     try {
-      // require(rootFile).call(null, Array.from(arguments))
-      const code = "console.log(1)"
+      // const code = "console.log(1)"
+      const code = `require('${rootFile}').call(null, ${JSON.stringify(Array.from(currentArgs))})`
       // 使用 spawn 利于node多进程的方式来执行命令 第一个参数-e 是执行代码的意思
-      const child = cp.spawn("node", ["-e", code], {
+      const child = spawn("node", ["-e", code], {
         cwd: process.cwd(),
         stdio: "inherit", // 和父进程做通信
       })

@@ -5,7 +5,7 @@ const Command = require("@cdp-wpm/command")
 class InitCommand extends Command {
   init() {
     this.projectName = this._argv[0] || ""
-    console.log(this.projectName)
+    console.log('projectName:', this.projectName)
   }
 
   exec() {

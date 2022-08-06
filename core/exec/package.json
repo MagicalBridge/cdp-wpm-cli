@@ -27,9 +27,10 @@
     "url": "https://github.com/MagicalBridge/cdp-wpm-cli/issues"
   },
   "dependencies": {
-    "@cdp-wpm/log": "file:../../utils/log",
-    "@cdp-wpm/package": "file:../../models/package",
+    "@cdp-wpm/log": "^0.0.19",
+    "@cdp-wpm/package": "^0.0.19",
     "fs-extra": "^10.1.0",
     "user-home": "^3.0.0"
-  }
+  },
+  "gitHead": "915531cfd9bbcc59316f4c929acf72f67f619665"
 }

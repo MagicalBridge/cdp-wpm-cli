@@ -27,11 +27,12 @@
     "url": "https://github.com/MagicalBridge/cdp-wpm-cli/issues"
   },
   "dependencies": {
-    "@cdp-wpm/format-path": "file:../../utils/format-path",
-    "@cdp-wpm/get-npm-info": "file:../../utils/get-npm-info",
-    "@cdp-wpm/utils": "file:../../utils/utils",
+    "@cdp-wpm/format-path": "^0.0.19",
+    "@cdp-wpm/get-npm-info": "^0.0.19",
+    "@cdp-wpm/utils": "^0.0.19",
     "npminstall": "^6.1.0",
     "path-exists": "^4.0.0",
     "pkg-dir": "5.0.0"
-  }
+  },
+  "gitHead": "915531cfd9bbcc59316f4c929acf72f67f619665"
 }

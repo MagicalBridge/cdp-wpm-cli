@@ -24,7 +24,10 @@
     "test": "echo \"Error: run tests from root\" && exit 1"
   },
   "dependencies": {
-    "@cdp-wpm/command": "file:../../models/command"
+    "@cdp-wpm/command": "file:../../models/command",
+    "fs-extra": "^10.1.0",
+    "inquirer": "^8.1.0",
+    "semver": "^7.3.7"
   },
   "bugs": {
     "url": "https://github.com/MagicalBridge/cdp-wpm-cli/issues"

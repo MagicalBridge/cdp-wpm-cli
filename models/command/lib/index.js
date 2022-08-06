@@ -28,6 +28,7 @@ class Command {
       chain = chain.then(() => this.initArgs())
       // 下面的方法就是执行用户自己的逻辑了
       chain = chain.then(() => this.init())
+      // 执行模板安装的操作
       chain = chain.then(() => this.exec())
       // 监听promsie的异常
       chain.catch((err) => {

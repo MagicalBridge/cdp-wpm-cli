@@ -3,7 +3,6 @@ const Package = require("@cdp-wpm/package")
 const path = require("path")
 const cp = require("child_process")
 const log = require("@cdp-wpm/log")
-// const userHome = require("user-home")
 
 // 这里做一个映射表，根据传递进来的name 找到完整的包名
 const SETTINGS = {

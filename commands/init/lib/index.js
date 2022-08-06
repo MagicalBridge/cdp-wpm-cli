@@ -121,8 +121,6 @@ class InitCommand extends Command {
   isCwdEmpty(localPath) {
     // fs.readdirSync 返回一个数组 当前文件的里面的文件夹的名称
     let fileList = fs.readdirSync(localPath)
-
-    
     // 文件过滤的条件，在目前的场景中其实只需要判断文件夹不为空就认为需要清空
     // fileList = fileList.filter((file) => {
     //   !file.startsWith(".") && "node_modules".indexOf(file) < 0

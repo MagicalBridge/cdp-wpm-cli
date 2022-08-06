@@ -1,6 +1,6 @@
 {
   "name": "@cdp-wpm/exec",
-  "version": "0.0.18",
+  "version": "0.0.19",
   "description": "执行命令包",
   "author": "褚鹏飞 <540788769@qq.com>",
   "homepage": "https://github.com/MagicalBridge/cdp-wpm-cli/tree/main/core/exec#readme",
@@ -27,8 +27,8 @@
     "url": "https://github.com/MagicalBridge/cdp-wpm-cli/issues"
   },
   "dependencies": {
-    "@cdp-wpm/package": "file:../../models/package",
     "@cdp-wpm/log": "file:../../utils/log",
+    "@cdp-wpm/package": "file:../../models/package",
     "fs-extra": "^10.1.0",
     "user-home": "^3.0.0"
   }

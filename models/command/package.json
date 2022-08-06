@@ -1,6 +1,6 @@
 {
   "name": "@cdp-wpm/command",
-  "version": "0.0.18",
+  "version": "0.0.19",
   "description": "这是统一封装的command类",
   "author": "褚鹏飞 <540788769@qq.com>",
   "homepage": "https://github.com/MagicalBridge/cdp-wpm-cli/tree/main/models/command#readme",

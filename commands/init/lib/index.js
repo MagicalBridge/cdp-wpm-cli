@@ -19,10 +19,21 @@ class InitCommand extends Command {
     // 2、下载模板
     // 3、安装模板
     try {
-      await this.prepare()
+      const projectInfo = await this.prepare()
+      console.log(projectInfo); // { type: 'TYPE_PROJECT', projectName: 'aa', projectVersion: '4.8.9' }
+      // 下载模板
+      this.downloadTemplate()
     } catch (e) {
       console.error(e.message)
     }
+  }
+
+  downloadTemplate () {
+    // 通过项目模板API获取项目模板信息
+    // 1.1 通过egg.js搭建一套后端系统
+    // 1.2 通过npm存储项目模板
+    // 1.3 将项目模板信息存储到 数据库中
+    // 1.4 通过 egg.js 获取数据库并通过api返回
   }
 
   async prepare() {
@@ -74,10 +85,12 @@ class InitCommand extends Command {
         value:TYPE_COMPONENT
       }]
     })
-    
+
+    let projectInfo = {}
+
     if (type === TYPE_PROJECT) {
       // 2、获取用户输入的基本信息
-      const projectInfo = await inquirer.prompt([{
+      const project = await inquirer.prompt([{
         type: "input",
         name:"projectName",
         message: "请输入项目的名称",
@@ -110,11 +123,15 @@ class InitCommand extends Command {
           return v
         }
       }])
-
-      console.log(projectInfo)
+      projectInfo = {
+        type,
+        ...project
+      }
     } else if (type === TYPE_COMPONENT) {
 
     }
+    // 返回项目的基本信息
+    return projectInfo
   }
 
   // 将目录是否为空封装成一个单独的方法

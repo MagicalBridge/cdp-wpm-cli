@@ -1,9 +1,9 @@
 {
-  "name": "@cdp-wpm/init",
-  "version": "0.0.20",
-  "description": "> TODO: description",
+  "name": "@cdp-wpm/request",
+  "version": "0.0.19",
+  "description": "封装的请求库",
   "author": "褚鹏飞 <540788769@qq.com>",
-  "homepage": "https://github.com/MagicalBridge/cdp-wpm-cli/tree/main/commands/init#readme",
+  "homepage": "https://github.com/MagicalBridge/cdp-wpm-cli/tree/main/utils/request#readme",
   "license": "ISC",
   "main": "lib/index.js",
   "directories": {
@@ -23,15 +23,10 @@
   "scripts": {
     "test": "echo \"Error: run tests from root\" && exit 1"
   },
-  "dependencies": {
-    "@cdp-wpm/command": "file:../../models/command",
-    "@cdp-wpm/request":"file:../../utils/request",
-    "fs-extra": "^10.1.0",
-    "inquirer": "^8.1.0",
-    "semver": "^7.3.7"
-  },
   "bugs": {
     "url": "https://github.com/MagicalBridge/cdp-wpm-cli/issues"
   },
-  "gitHead": "915531cfd9bbcc59316f4c929acf72f67f619665"
+  "dependencies": {
+    "axios": "^0.27.2"
+  }
 }

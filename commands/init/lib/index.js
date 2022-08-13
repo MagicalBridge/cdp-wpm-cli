@@ -4,6 +4,7 @@ const fse = require("fs-extra")
 const semver = require("semver")
 const inquirer = require("inquirer")
 const Command = require("@cdp-wpm/command")
+const getProjectTemplate = require("./getProjectTemplate")
 
 const TYPE_PROJECT = "TYPE_PROJECT"
 const TYPE_COMPONENT = "TYPE_COMPONENT"
@@ -28,8 +29,10 @@ class InitCommand extends Command {
     }
   }
 
+  /**
+   * 通过项目模板API获取项目模板信息
+   */
   downloadTemplate () {
-    // 通过项目模板API获取项目模板信息
     // 1.1 通过egg.js搭建一套后端系统
     // 1.2 通过npm存储项目模板
     // 1.3 将项目模板信息存储到 数据库中
@@ -37,6 +40,9 @@ class InitCommand extends Command {
   }
 
   async prepare() {
+    // 首先判断项目模板是否存在
+    const template = await getProjectTemplate()
+    console.log("template", template)
     // console.log("进入准备函数");
     // 1、判断当前目录是否为空 首先要拿到当前的目录
     const localPath = process.cwd()

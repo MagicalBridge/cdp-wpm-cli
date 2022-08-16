@@ -87,9 +87,8 @@ async function exec(currOption, currentArgs) {
         log.error(error.message)
         process.exit(1)
       })
-
       child.on("exit", (e) => {
-        log.verbose("命令执行成功" + e)
+        // log.verbose("命令执行成功" + e)
         process.exit(e)
       })
     } catch (error) {

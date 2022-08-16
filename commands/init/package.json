@@ -25,10 +25,14 @@
   },
   "dependencies": {
     "@cdp-wpm/command": "file:../../models/command",
-    "@cdp-wpm/request":"file:../../utils/request",
+    "@cdp-wpm/package": "file:../../models/package",
+    "@cdp-wpm/request": "file:../../utils/request",
+    "@cdp-wpm/utils": "file:../../utils/utils",
+    "@cdp-wpm/log": "file:../../utils/log",
     "fs-extra": "^10.1.0",
     "inquirer": "^8.1.0",
-    "semver": "^7.3.7"
+    "semver": "^7.3.7",
+    "user-home": "^3.0.0"
   },
   "bugs": {
     "url": "https://github.com/MagicalBridge/cdp-wpm-cli/issues"

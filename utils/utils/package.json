@@ -26,5 +26,8 @@
   "bugs": {
     "url": "https://github.com/MagicalBridge/cdp-wpm-cli/issues"
   },
-  "gitHead": "915531cfd9bbcc59316f4c929acf72f67f619665"
+  "gitHead": "915531cfd9bbcc59316f4c929acf72f67f619665",
+  "dependencies": {
+    "cli-spinner": "^0.2.10"
+  }
 }

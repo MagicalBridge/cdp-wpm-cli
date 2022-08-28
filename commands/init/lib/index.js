@@ -14,6 +14,9 @@ const getProjectTemplate = require("./getProjectTemplate")
 const TYPE_PROJECT = "TYPE_PROJECT"
 const TYPE_COMPONENT = "TYPE_COMPONENT"
 
+const TEMPLATE_TYPE_NROMAL = "normal"
+const TEMPLATE_TYPE_CUSTOM = "custom"
+
 class InitCommand extends Command {
   init() {
     this.projectName = this._argv[0] || ""
@@ -26,37 +29,106 @@ class InitCommand extends Command {
     // 3、安装模板
     try {
       const projectInfo = await this.prepare()
-      console.log(projectInfo); // { type: 'TYPE_PROJECT', projectName: 'aa', projectVersion: '4.8.9' }
-      
+      console.log(projectInfo) // { type: 'TYPE_PROJECT', projectName: 'aa', projectVersion: '4.8.9' }
+
       // 将当前用户输入的信息也保存下来
       this.projectInfo = projectInfo
-
       // 下载模板
       await this.downloadTemplate()
+      // 安装模板
+      await this.installTemplate()
     } catch (e) {
       console.error(e.message)
     }
   }
 
   /**
+   * 安装模板
+   */
+  async installTemplate() {
+    // console.log(this.templateInfo)
+    // {
+    //   _id: '62f6fea2cdcd35e79a0773c6',
+    //   name: 'vue2标准模板',
+    //   npmName: 'cdp-wpm-template-vue2',
+    //   version: '0.1.0',
+    //   type: 'normal'
+    // }
+    if (this.templateInfo) {
+      if (!this.templateInfo.type) {
+        // 如果不存在type属性 赋值为标准类型
+        this.templateInfo.type = TEMPLATE_TYPE_NROMAL
+      }
+      if (this.templateInfo.type === TEMPLATE_TYPE_NROMAL) {
+        // 走标准安装
+        await this.installNormalTemplate()
+      } else if (this.templateInfo.type === TEMPLATE_TYPE_CUSTOM) {
+        // 走自定义的安装
+        await this.installCustomTemplate()
+      } else {
+        throw new Error("项目模板类型无法识别")
+      }
+    } else {
+      // 抛出异常
+      throw new Error("项目模板信息不存在")
+    }
+  }
+
+  /**
+   * 安装标准模板
+   */
+  async installNormalTemplate() {
+    let spinner = spinnerStart("正在安装模板")
+    try {
+      // 获取缓存的目录
+      const templatePath = path.resolve(
+        this.templateNpm.cacheFilePath,
+        "template"
+      )
+      // 命令执行的当前目录
+      const targetPath = process.cwd()
+      // 确保目录是存在的
+      fse.ensureDirSync(templatePath)
+      fse.ensureDirSync(targetPath)
+      fse.copySync(templatePath, targetPath)
+    } catch (error) {
+      throw error
+    } finally {
+      spinner.stop(true)
+      console.log("安装模板成功")
+    }
+  }
+
+  async installCustomTemplate() {
+    console.log("安装自定义模板")
+  }
+
+  /**
    * 通过项目模板API获取项目模板信息
    */
-  async downloadTemplate () {
+  async downloadTemplate() {
     // console.log(this.template,this.projectInfo)
     const { projectTemplate } = this.projectInfo
     // console.log(projectTemplate);
-    const templateInfo = this.template.find(item => {
+    const templateInfo = this.template.find((item) => {
       return item.npmName === projectTemplate
     })
+    // 过滤模板信息保存在当前对象上面
+    this.templateInfo = templateInfo
     // template 专门用来缓存项目的模板
-    const targetPath = path.resolve(userHome, '.cdp-wpm-cli', 'template')
-    const storeDir = path.resolve(userHome, '.cdp-wpm-cli', 'template', 'node_modules')
-    const { npmName,version } = templateInfo
+    const targetPath = path.resolve(userHome, ".cdp-wpm-cli", "template")
+    const storeDir = path.resolve(
+      userHome,
+      ".cdp-wpm-cli",
+      "template",
+      "node_modules"
+    )
+    const { npmName, version } = templateInfo
     const templateNpm = new Package({
       targetPath,
       storePath: storeDir,
-      packageName:npmName,
-      packageVersion:version
+      packageName: npmName,
+      packageVersion: version,
     })
     // 这里打印 需要下载的模板实例
     // console.log(templateNpm);
@@ -67,27 +139,32 @@ class InitCommand extends Command {
     //   packageVersion: '0.1.0',
     //   cacheFilePathPrefix: 'cdp-wpm-template-vue2'
     // }
-    if (! await templateNpm.exists()) {
+    if (!(await templateNpm.exists())) {
       const spinner = spinnerStart("正在下载模板...")
       try {
         // 不存在这个目录 走下载模式
         await templateNpm.install()
-        log.success("下载模板成功")
       } catch (error) {
         throw new Error("下载模板失败")
       } finally {
         spinner.stop(true)
+        if (await templateNpm.exists()) {
+          log.success("下载模板成功")
+          this.templateNpm = templateNpm
+        }
       }
     } else {
       const spinner = spinnerStart("正在更新模板...")
       try {
         await templateNpm.update()
-        log.success("更新模板成功")
-
       } catch (error) {
         throw new Error("更新模板失败")
       } finally {
         spinner.stop(true)
+        if (await templateNpm.exists()) {
+          log.success("更新模板成功")
+          this.templateNpm = templateNpm
+        }
       }
     }
   }
@@ -101,7 +178,7 @@ class InitCommand extends Command {
     }
 
     // 保存template实例
-    this.template = template;  
+    this.template = template
     // console.log("进入准备函数");
     // 1、判断当前目录是否为空 首先要拿到当前的目录
     const localPath = process.cwd()
@@ -143,63 +220,69 @@ class InitCommand extends Command {
       name: "type",
       message: "请选择初始化的类型",
       default: TYPE_PROJECT,
-      choices:[{
-        name: "项目",
-        value:TYPE_PROJECT
-      },{
-        name:"组件",
-        value:TYPE_COMPONENT
-      }]
+      choices: [
+        {
+          name: "项目",
+          value: TYPE_PROJECT,
+        },
+        {
+          name: "组件",
+          value: TYPE_COMPONENT,
+        },
+      ],
     })
 
     let projectInfo = {}
 
     if (type === TYPE_PROJECT) {
       // 2、获取用户输入的基本信息
-      const project = await inquirer.prompt([{
-        type: "input",
-        name:"projectName",
-        message: "请输入项目的名称",
-        default:"",
-        validate: (v) => {
-          return typeof v === "string"
+      const project = await inquirer.prompt([
+        {
+          type: "input",
+          name: "projectName",
+          message: "请输入项目的名称",
+          default: "",
+          validate: (v) => {
+            return typeof v === "string"
+          },
+          filter: (v) => {
+            return v
+          },
         },
-        filter: (v) => {
-          return v
-        }
-      },{
-        type: "input",
-        name:"projectVersion",
-        message: "请输入项目的版本号",
-        default:"1.0.0",
-        validate: function(v) {
-          const done = this.async();
-          setTimeout(() => {
-            if (!semver.valid(v)) {
-              done("请输入符合npm规范版本号")
+        {
+          type: "input",
+          name: "projectVersion",
+          message: "请输入项目的版本号",
+          default: "1.0.0",
+          validate: function (v) {
+            const done = this.async()
+            setTimeout(() => {
+              if (!semver.valid(v)) {
+                done("请输入符合npm规范版本号")
+              }
+              done(null, true)
+            }, 0)
+            return !!semver.valid(v)
+          },
+          filter: (v) => {
+            if (!!semver.valid(v)) {
+              return semver.valid(v)
             }
-            done(null, true)
-          }, 0);
-          return !!semver.valid(v)
+            return v
+          },
         },
-        filter: (v) => {
-          if (!!semver.valid(v)) {
-            return semver.valid(v)
-          }
-          return v
-        }
-      },{
-        type: "list",
-        name: "projectTemplate",
-        message: "请选择项目模板",
-        choices: this.createTemplateChoices()
-      }])
+        {
+          type: "list",
+          name: "projectTemplate",
+          message: "请选择项目模板",
+          choices: this.createTemplateChoices(),
+        },
+      ])
       projectInfo = {
         type,
-        ...project
+        ...project,
       }
     } else if (type === TYPE_COMPONENT) {
-
     }
     // 返回项目的基本信息
     return projectInfo
@@ -207,9 +290,9 @@ class InitCommand extends Command {
 
   // 项目模板的选择
   createTemplateChoices() {
-    return this.template.map((item)=>({
+    return this.template.map((item) => ({
       value: item.npmName,
-      name: item.name
+      name: item.name,
     }))
   }
 
